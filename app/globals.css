@@ -105,6 +105,11 @@ body[cursor-style="text"] {
     cursor: text;
 }
 
+/* my-tool cursor */
+body[cursor-style="help"] {
+    cursor: help;
+}
+
 /* Color item */
 button.color-item:hover::after {
     content: "";

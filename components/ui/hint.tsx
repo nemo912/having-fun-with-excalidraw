@@ -23,7 +23,7 @@ export const Hint = ({ children, label, side, align, alignOffset, sideOffset }: 
 
     return (
         <TooltipProvider>
-            <Tooltip delayDuration={700}>
+            <Tooltip delayDuration={50}>
                 <TooltipTrigger asChild>{children}</TooltipTrigger>
                 <TooltipContent
                     className="shadow-md"

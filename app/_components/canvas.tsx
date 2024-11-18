@@ -28,6 +28,7 @@ import {
     strokeWidthState,
     toolCursorState,
     toolState,
+    isUnderlinedState,
 } from "@/state";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { Zoom } from "@/components/zoom";
@@ -77,6 +78,7 @@ export const Canvas = ({ startCollab }: { startCollab: () => void }) => {
 
     const [fontFamily, setFontFam] = useRecoilState(fontFamilyState);
     const [fontSize, setFontSize] = useRecoilState(fontSizeState);
+    const [isUnderlined, _] = useRecoilState(isUnderlinedState);
 
     const { panning, doPan, startPanning, stopPanning, panOffset } = usePanning(canvasRef);
     const { startDrawingShapes, stopDrawingShapes, drawShapes, isDrawingShapes } =
@@ -138,6 +140,7 @@ export const Canvas = ({ startCollab }: { startCollab: () => void }) => {
                 textValue,
                 fontSize,
                 fontFamily,
+                isUnderlined: isUnderlined,
             };
 
             if (prevSelectedItem.current) {
@@ -251,6 +254,8 @@ export const Canvas = ({ startCollab }: { startCollab: () => void }) => {
         line: (event: React.MouseEvent) => handleShapeDraw("line", event),
         text: (event: React.MouseEvent) => handleWritingText(event),
         arrow: (event: React.MouseEvent) => handleShapeDraw("arrow", event),
+        /* my-tool draw logic ( I think... ) */
+        'my-tool': (event: React.MouseEvent) => handleShapeDraw("face", event),
     };
 
     const onMouseDown = (event: React.MouseEvent) => {
@@ -581,7 +586,7 @@ export const Canvas = ({ startCollab }: { startCollab: () => void }) => {
             {isWriting ? (
                 <textarea
                     ref={textareaRef}
-                    className="fixed z-10 bg-transparent outline-none"
+                    className={`fixed z-10 bg-transparent outline-none ${isUnderlined && 'underline'}`}
                     style={{
                         top: prevSelectedItem?.current?.y1
                             ? prevSelectedItem.current.y1 + 2

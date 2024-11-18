@@ -21,7 +21,7 @@ export type ToolType =
     | "text"
     | "arrow";
 
-export type ShapesType = "rectangle" | "circle" | "square" | "line" | "pencil" | "text" | "arrow";
+export type ShapesType = "rectangle" | "circle" | "square" | "line" | "pencil" | "text" | "arrow" | "face";
 export type Point = { x: number; y: number; pressure?: number };
 
 export type DrawnElementType = {
@@ -43,6 +43,7 @@ export type DrawnElementType = {
     textAlign?: TextAlignType;
     fontSize?: FontSizeType;
     fontFamily?: FontFamilyType;
+    isUnderlined?: boolean;
 };
 
 export type FontSizeType = 18 | 20 | 24 | 26;

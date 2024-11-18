@@ -44,6 +44,7 @@ export const isWithInElement = (
     switch (shape) {
         case "line":
         case "arrow":
+        case "face":
             const m = (y2 - y1) / (x2 - x1);
             const c = y1 - m * x1;
             const dist = Math.abs(y - (m * x + c));
@@ -224,6 +225,7 @@ export const drawOnCanvas = (
         case "rectangle":
         case "square":
         case "arrow":
+        case "face":
             if (element.roughElement !== undefined) {
                 roughCanvas.draw(element.roughElement);
             }
@@ -259,6 +261,9 @@ export const drawOnCanvas = (
                 // }
 
                 context.fillText(element.textValue, element.x1 - 1.5, element.y1 + 5.7);
+                if (element.isUnderlined) {
+                    context.fillText('_'.repeat(element.textValue.length - 1), element.x1 - 1.5, element.y1 + 5.6)
+                }
             }
 
             break;

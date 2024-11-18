@@ -18,6 +18,12 @@ export const backgroundColorState = atom({
     default: "#ebebeb",
 });
 
+/* just for my new tool! */
+export const textureState = atom({
+    key: 'texture',
+    default: 'solid',
+});
+
 export const strokeColorState = atom({
     key: "strokeColorState",
     default: "#1e1e1e",
@@ -61,6 +67,12 @@ export const fontFamilyState = atom<FontFamilyType>({
 export const textAlignState = atom<TextAlignType>({
     key: "textAlignState",
     default: "left",
+});
+
+/* for underline text */
+export const isUnderlinedState = atom({
+    key: "underlineState",
+    default: false,
 });
 
 // export const selectionBounds = selector({

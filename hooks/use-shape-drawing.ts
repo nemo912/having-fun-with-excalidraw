@@ -5,6 +5,7 @@ import {
     backgroundColorState,
     strokeColorState,
     strokeWidthState,
+    textureState,
 } from "@/state";
 import { ShapesType } from "@/types";
 
@@ -61,6 +62,7 @@ export const useShapeDrawing = (roughCanvas: RoughCanvas | null) => {
     const [strokeWidth, __] = useRecoilState(strokeWidthState);
     const [strokeStyle, _____] = useRecoilState(StrokeStyleState);
     const [fillColor, ____] = useRecoilState(backgroundColorState);
+    const [texture, ___] = useRecoilState(textureState);
 
     const drawRectangle = (
         id: number,
@@ -192,6 +194,59 @@ export const useShapeDrawing = (roughCanvas: RoughCanvas | null) => {
         return { id, x1, y1, x2, y2, roughElement, shape: "arrow", isSelected };
     };
 
+    const drawFace = (
+        id: number,
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
+        options?: ResolvedOptions,
+        isSelected?: boolean
+    ): ShapeReturnType => {
+        const width = x2 - x1;
+        const height = y2 - y1;
+        const posiX = x1 + (width / 2);
+        const posiY = y1 + (height / 2);
+
+        const eyesGap = width * .2;
+        const eyeXL = posiX - eyesGap;
+        const eyeYL = posiY - (height * .2);
+        const eyeXR = posiX + eyesGap;
+
+        const eyeOne = `M${eyeXL} ${eyeYL}
+                        A${2} ${2} 0 1 0 ${eyeXL} ${eyeYL + height * .1}
+                        A${2} ${2} 0 1 0 ${eyeXL} ${eyeYL}`;
+
+        const eyeTwo = `M${eyeXR} ${eyeYL}
+                        A${2} ${2} 0 1 0 ${eyeXR} ${eyeYL + height * .1}
+                        A${2} ${2} 0 1 0 ${eyeXR} ${eyeYL}`;
+
+        const mouth = `M${x1 + (.2 * width)} ${posiY + (.2 * height)}L${x2 - (.2 * width)} ${posiY + (.2 * height)}
+                        Q${posiX} ${posiY - 12} ${x1 + (.2 * width)} ${posiY + (.2 * height)}`;
+
+        const roughElement = roughCanvas?.generator.path(
+            `M${posiX} ${y1}
+            A${width / 2} ${height / 2} 0 1 0 ${posiX} ${y2}
+            A${width / 2} ${height / 2} 0 1 0 ${posiX} ${y1}
+            ${eyeOne}
+            ${eyeTwo}
+            ${mouth}
+            `,
+            {
+                stroke: strokeColor,
+                strokeWidth: strokeWidthMap[strokeWidth],
+                roughness: 0.1,
+                fill: fillColor === "#ebebeb" ? "" : fillColor,
+                strokeLineDash: strokeStyleMap[strokeStyle],
+                fillStyle: texture,
+
+                ...options,
+            }
+        );
+
+        return { id, x1, y1, x2, y2, roughElement, shape: "face", isSelected };
+    };
+
     const startDrawingShapes = (
         id: number,
         x1: number,
@@ -214,6 +269,10 @@ export const useShapeDrawing = (roughCanvas: RoughCanvas | null) => {
 
             case "arrow":
                 return drawArrow(id, x1, y1, x2, y2);
+
+            /* start drawing my-tool */
+            case "face":
+                return drawFace(id, x1, y1, x2, y2);
 
             default:
                 break;
@@ -241,6 +300,10 @@ export const useShapeDrawing = (roughCanvas: RoughCanvas | null) => {
 
             case "arrow":
                 return drawArrow(id, x1, y1, x2, y2, options, isSelected);
+
+            /* :| */
+            case "face":
+                return drawFace(id, x1, y1, x2, y2, options, isSelected);
 
             default:
                 return null;

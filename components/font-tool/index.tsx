@@ -2,6 +2,7 @@ import { ToolbarMenuItemWrapper } from "@/components/toolbar-menu/toolbar-menu-i
 import { FontSizePicker } from "./font-size-picker";
 import { FontFamilyPicker } from "./font-family-picker";
 import { TextAlignPicker } from "./text-align-picker";
+import { IsUnderlined } from '../is-underlined';
 
 export const FontTool = () => {
     const items = [
@@ -16,6 +17,10 @@ export const FontTool = () => {
         {
             element: <TextAlignPicker />,
             title: "Text align",
+        },
+        {
+            element: <IsUnderlined />,
+            title: "Text Underline",
         },
     ];
 

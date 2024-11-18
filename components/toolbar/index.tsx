@@ -10,6 +10,7 @@ import {
     Type,
     ArrowRight,
     MoveRight,
+    Smile,
 } from "lucide-react";
 import { ToolButtonWrapper } from "./tool-button-wrapper";
 import { CursorStateType, ToolType } from "@/types";
@@ -62,6 +63,11 @@ export const Toolbar = () => {
             tool: "arrow",
             icon: <MoveRight className={toolbarItemStyle} />,
             cursorStyle: "crosshair",
+        },
+        {
+            tool: "my-tool",
+            icon: <Smile className={toolbarItemStyle} />,
+            cursorStyle: "help",
         },
     ];
 

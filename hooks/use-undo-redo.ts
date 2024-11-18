@@ -8,7 +8,7 @@ export const useUndoRedo = (initialState: DrawnElementType[]) => {
         // Might change this to useEffect
         const localData =
             typeof window !== "undefined" && window.localStorage
-                ? localStorage.getItem("history")
+                ? null
                 : null;
         return localData ? [JSON.parse(localData)] : [initialState];
     });
